@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                font-family: Cascadia Mono;
+            }
+
+            #ck {
+                display: none;
+            }
+
+            #powerroll {
+                width: 400px;
+                height: 400px;
+                border: black 2px solid;
+                margin-left: 40%;
+                margin-top: 20vh;
+                text-align: center ;
+                z-index: 99;
+                position: fixed;
+                display: none;
+            }
+
+            #rng {
+                font-size: 50px;
+            }
+
+            h1 {
+                margin-bottom: 50px;
+            }
+
+            button {
+                background: white;
+                border-style: none;
+                font-family: Cascadia Mono;
+                font-size: 30px;
+                margin-top: 50px;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div id="home">
+            <button onclick="check()">Roll for your power?</button>
+            <h1>Rolls Left: <span id="left"></span></h1>
+            <span id="stored"></span>
+            <span id="check"></span>
+        </div>
+        <div id="powerroll">
+            <h1>ROLL FOR YOUR POWER</h1>
+            <span id="rng"></span><br>
+            <button onclick="repeat()">ROLL</button>
+            <h2 id="ck">You got <span id="power"></span></h2>
+        </div>
+
+        <script>
+            const test = [
+            "Fire", "Water", "Ice", "Rock", "Wood", "Space", "Lightning" , "Wind" , "Zone" , "Paw" , "Snow", "Gravity", "Shadow" , "Light", "Dark", "Venom"
+        ]   
+            
+            const powers = []
+            
+            let x = 3;
+            document.getElementById("left").innerHTML = x;
+
+            function rollappear() {
+                document.getElementById("powerroll").style.display = "block";
+            }
+
+            function check() {
+                if (x <= 0) {
+                    document.getElementById("check").innerHTML = "sorry your out of rolls";
+                }   else
+                    rollappear();
+            }
+
+            function rng() {
+                let rannum = Math.floor(Math.random()*16)
+                let num = (test);
+                let rng = num[rannum];
+                document.getElementById("rng").innerHTML = rng;
+                window.localStorage.setItem("power", rng);
+            }
+
+            var i = 0;
+
+            function repeat() {
+                setTimeout(function() {
+                    console.log('hello')
+                    i++
+                    if (i < 30) {
+                        repeat();
+                        rng();
+                    }   else
+                        power();
+                }, 200)
+            }
+
+            function power() {
+                ab = window.localStorage.getItem("power")
+                document.getElementById("ck").style.display = "block";
+                document.getElementById("power").innerHTML = ab;
+                x--
+                console.log(x);
+                powers.push(ab)
+                document.getElementById("left").innerHTML = x;
+                document.getElementById("stored").innerHTML = powers;
+                setTimeout(function() {
+                    document.getElementById("powerroll").style.display = "none";
+                    reset()
+                }, 2000)
+            }
+
+            function reset() {
+                i = 0;
+                document.getElementById("power").innerHTML = "";
+                document.getElementById("rng").innerHTML = "";
+
+            }
+            
+
+        </script>
+    </body>
+</html>
